@@ -131,6 +131,10 @@ def create_app(config_class=Config):
 
 
 
+        # =========================
+    # HEALTH CHECK
+    # =========================
+
     @app.route("/api/health")
     def health():
 

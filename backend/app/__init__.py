@@ -49,13 +49,15 @@ def create_app(config_class=Config):
 
     CORS(
     app,
-    resources={
-        r"/api/*": {
-            "origins": Config.CORS_ORIGINS
-        }
-    },
+    origins=[
+        "http://localhost:5173",
+        "https://papaya-frontend-nqx2.onrender.com",
+        "http://localhost",
+        "https://localhost",
+        "capacitor://localhost"
+    ],
     supports_credentials=True
-    )
+)
 
 
 

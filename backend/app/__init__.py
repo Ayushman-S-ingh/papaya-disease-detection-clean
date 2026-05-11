@@ -131,10 +131,7 @@ def create_app(config_class=Config):
 
 
 
-    # =========================
-    # HEALTH CHECK
-    # =========================
-    @app.route("/api/health")
+        @app.route("/api/health")
     def health():
 
         return {
@@ -142,6 +139,28 @@ def create_app(config_class=Config):
             "version": "1.0.0"
         }
 
+    # =========================
+    # MANUAL CORS HEADERS
+    # =========================
 
+    @app.after_request
+    def after_request(response):
+
+        response.headers.add(
+            "Access-Control-Allow-Origin",
+            "*"
+        )
+
+        response.headers.add(
+            "Access-Control-Allow-Headers",
+            "Content-Type,Authorization"
+        )
+
+        response.headers.add(
+            "Access-Control-Allow-Methods",
+            "GET,POST,PUT,DELETE,OPTIONS"
+        )
+
+        return response
 
     return app

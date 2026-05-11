@@ -10,6 +10,9 @@
     "lint": "eslint . --ext js,jsx"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.3",
+    "@capacitor/cli": "^8.3.3",
+    "@capacitor/core": "^8.3.3",
     "axios": "^1.16.0",
     "chart.js": "^4.4.3",
     "react": "^18.3.1",

@@ -59,11 +59,11 @@ class Config:
     # =========================
 
     CORS_ORIGINS = [
-        "http://localhost:5173",
-        "https://papaya-disease-detection-1.onrender.com",
-        "http://localhost",
-        "https://localhost",
-        "capacitor://localhost"
+    "http://localhost:5173",
+    "https://papaya-frontend-nqx2.onrender.com",
+    "http://localhost",
+    "https://localhost",
+    "capacitor://localhost"
     ]
 
     # =========================

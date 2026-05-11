@@ -131,7 +131,7 @@ def create_app(config_class=Config):
 
 
 
-        @app.route("/api/health")
+    @app.route("/api/health")
     def health():
 
         return {

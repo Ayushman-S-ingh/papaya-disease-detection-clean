@@ -43,14 +43,19 @@ def create_app(config_class=Config):
     jwt.init_app(app)
 
     # =========================
-    # CORS
+    # CORS FIX
     # =========================
 
     CORS(
         app,
         resources={
             r"/api/*": {
-                "origins": app.config["CORS_ORIGINS"]
+                "origins": [
+                    "https://papaya-frontend-nqx2.onrender.com",
+                    "http://localhost",
+                    "https://localhost",
+                    "capacitor://localhost"
+                ]
             }
         },
         supports_credentials=True

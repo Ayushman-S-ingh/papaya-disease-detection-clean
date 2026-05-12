@@ -1,13 +1,14 @@
 // src/services/authService.js
 
-import { CapacitorHttp } from "@capacitor/core";
+import axios from "axios";
 
 // =========================
 // BASE API URL
 // =========================
 
 const API_URL =
-  "https://papaya-disease-detection-ww35.onrender.com";
+  import.meta.env.VITE_API_URL ||
+  "https://papaya-disease-detection-clean.onrender.com";
 
 // =========================
 // AUTH SERVICE
@@ -27,21 +28,16 @@ export const authService = {
     try {
 
       const response =
-        await CapacitorHttp.post({
+        await axios.post(
 
-          url:
-            `${API_URL}/api/auth/login`,
+          `${API_URL}/api/auth/login`,
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-
-          data: {
+          {
             email,
             password,
-          },
-        });
+          }
+
+        );
 
       return response.data;
 
@@ -67,18 +63,13 @@ export const authService = {
     try {
 
       const response =
-        await CapacitorHttp.post({
+        await axios.post(
 
-          url:
-            `${API_URL}/api/auth/register`,
+          `${API_URL}/api/auth/register`,
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
+          userData
 
-          data: userData,
-        });
+        );
 
       return response.data;
 
@@ -107,16 +98,18 @@ export const authService = {
         );
 
       const response =
-        await CapacitorHttp.get({
+        await axios.get(
 
-          url:
-            `${API_URL}/api/auth/me`,
+          `${API_URL}/api/auth/me`,
 
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
-        });
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+
+        );
 
       return response.data;
 

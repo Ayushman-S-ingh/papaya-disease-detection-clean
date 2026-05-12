@@ -58,13 +58,10 @@ class Config:
     # CORS
     # =========================
 
-    CORS_ORIGINS = [
-    "http://localhost:5173",
-    "https://papaya-frontend-nqx2.onrender.com",
-    "http://localhost",
-    "https://localhost",
-    "capacitor://localhost"
-    ]
+    CORS_ORIGINS = os.environ.get(
+        "CORS_ORIGINS",
+        "https://papaya-frontend-nqx2.onrender.com,http://localhost:5173,http://localhost,https://localhost,capacitor://localhost"
+    ).split(",")
 
     # =========================
     # FILE UPLOADS
@@ -123,7 +120,6 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-
     DEBUG = True
 
 

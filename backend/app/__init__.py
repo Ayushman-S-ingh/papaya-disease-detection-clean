@@ -21,10 +21,10 @@ db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
 
-
 # =========================
 # CREATE APP
 # =========================
+
 
 def create_app(config_class=Config):
 
@@ -43,16 +43,17 @@ def create_app(config_class=Config):
     jwt.init_app(app)
 
     # =========================
-    # CORS FIX
+    # CORS
     # =========================
 
     CORS(
         app,
         resources={
             r"/api/*": {
-                "origins": "*"
+                "origins": app.config["CORS_ORIGINS"]
             }
-        }
+        },
+        supports_credentials=True
     )
 
     # =========================

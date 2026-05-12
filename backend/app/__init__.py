@@ -1,32 +1,19 @@
 """
 app/__init__.py
-Flask application factory
 """
 
 import os
 
-from flask import (
-    Flask,
-    send_from_directory,
-    request,
-    make_response
-)
-
+from flask import Flask, send_from_directory
 from flask_cors import CORS
-
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_migrate import Migrate
-
 from flask_jwt_extended import JWTManager
 
 from .config import Config
 
-
 db = SQLAlchemy()
-
 migrate = Migrate()
-
 jwt = JWTManager()
 
 
@@ -52,46 +39,22 @@ def create_app(config_class=Config):
 
     CORS(
         app,
-        origins=[
-            "http://localhost:5173",
-            "https://papaya-frontend-nqx2.onrender.com",
-            "http://localhost",
-            "https://localhost",
-            "capacitor://localhost"
-        ],
-        supports_credentials=True
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://localhost:5173",
+                    "https://papaya-frontend-nqx2.onrender.com",
+                    "http://localhost",
+                    "https://localhost",
+                    "capacitor://localhost",
+                ]
+            }
+        },
+        supports_credentials=True,
     )
 
     # =========================
-    # HANDLE PREFLIGHT REQUESTS
-    # =========================
-
-    @app.before_request
-    def handle_preflight():
-
-        if request.method == "OPTIONS":
-
-            response = make_response()
-
-            response.headers.add(
-                "Access-Control-Allow-Origin",
-                "*"
-            )
-
-            response.headers.add(
-                "Access-Control-Allow-Headers",
-                "Content-Type,Authorization"
-            )
-
-            response.headers.add(
-                "Access-Control-Allow-Methods",
-                "GET,POST,PUT,DELETE,OPTIONS"
-            )
-
-            return response
-
-    # =========================
-    # SERVE UPLOADED IMAGES
+    # SERVE UPLOADS
     # =========================
 
     @app.route("/api/uploads/<filename>")
@@ -112,15 +75,10 @@ def create_app(config_class=Config):
     # =========================
 
     from .routes.auth import auth_bp
-
     from .routes.predict import predict_bp
-
     from .routes.history import history_bp
-
     from .routes.analytics import analytics_bp
-
     from .routes.report import report_bp
-
     from .routes.admin import admin_bp
 
     # =========================
@@ -168,29 +126,5 @@ def create_app(config_class=Config):
             "status": "healthy",
             "version": "1.0.0"
         }
-
-    # =========================
-    # MANUAL CORS HEADERS
-    # =========================
-
-    @app.after_request
-    def after_request(response):
-
-        response.headers.add(
-            "Access-Control-Allow-Origin",
-            "*"
-        )
-
-        response.headers.add(
-            "Access-Control-Allow-Headers",
-            "Content-Type,Authorization"
-        )
-
-        response.headers.add(
-            "Access-Control-Allow-Methods",
-            "GET,POST,PUT,DELETE,OPTIONS"
-        )
-
-        return response
 
     return app

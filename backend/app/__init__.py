@@ -1,5 +1,6 @@
 """
 app/__init__.py
+Flask application factory
 """
 
 import os
@@ -12,10 +13,18 @@ from flask_jwt_extended import JWTManager
 
 from .config import Config
 
+# =========================
+# EXTENSIONS
+# =========================
+
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
 
+
+# =========================
+# CREATE APP
+# =========================
 
 def create_app(config_class=Config):
 
@@ -24,7 +33,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # =========================
-    # EXTENSIONS
+    # INIT EXTENSIONS
     # =========================
 
     db.init_app(app)
@@ -34,27 +43,20 @@ def create_app(config_class=Config):
     jwt.init_app(app)
 
     # =========================
-    # CORS
+    # CORS FIX
     # =========================
 
     CORS(
         app,
         resources={
             r"/api/*": {
-                "origins": [
-                    "http://localhost:5173",
-                    "https://papaya-frontend-nqx2.onrender.com",
-                    "http://localhost",
-                    "https://localhost",
-                    "capacitor://localhost",
-                ]
+                "origins": "*"
             }
-        },
-        supports_credentials=True,
+        }
     )
 
     # =========================
-    # SERVE UPLOADS
+    # SERVE UPLOADED FILES
     # =========================
 
     @app.route("/api/uploads/<filename>")

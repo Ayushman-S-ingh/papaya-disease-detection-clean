@@ -1,20 +1,24 @@
 // src/services/authService.js
 
-import axios from "axios";
+import { CapacitorHttp } from "@capacitor/core";
 
 // =========================
 // BASE API URL
 // =========================
+
 const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  "https://papaya-disease-detection-ww35.onrender.com";
 
 // =========================
 // AUTH SERVICE
 // =========================
+
 export const authService = {
 
+  // =========================
   // LOGIN
+  // =========================
+
   login: async (
     email,
     password
@@ -23,13 +27,21 @@ export const authService = {
     try {
 
       const response =
-        await axios.post(
-          `${API_URL}/api/auth/login`,
-          {
+        await CapacitorHttp.post({
+
+          url:
+            `${API_URL}/api/auth/login`,
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          data: {
             email,
             password,
-          }
-        );
+          },
+        });
 
       return response.data;
 
@@ -44,7 +56,10 @@ export const authService = {
     }
   },
 
+  // =========================
   // REGISTER
+  // =========================
+
   register: async (
     userData
   ) => {
@@ -52,10 +67,18 @@ export const authService = {
     try {
 
       const response =
-        await axios.post(
-          `${API_URL}/api/auth/register`,
-          userData
-        );
+        await CapacitorHttp.post({
+
+          url:
+            `${API_URL}/api/auth/register`,
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          data: userData,
+        });
 
       return response.data;
 
@@ -70,7 +93,10 @@ export const authService = {
     }
   },
 
+  // =========================
   // GET CURRENT USER
+  // =========================
+
   getMe: async () => {
 
     try {
@@ -81,15 +107,16 @@ export const authService = {
         );
 
       const response =
-        await axios.get(
-          `${API_URL}/api/auth/me`,
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          }
-        );
+        await CapacitorHttp.get({
+
+          url:
+            `${API_URL}/api/auth/me`,
+
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        });
 
       return response.data;
 
